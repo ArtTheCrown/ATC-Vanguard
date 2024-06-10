@@ -51,6 +51,7 @@ namespace ATC_Vanguard.Vanguard
 
             Commands.RegisterCommands<GeneralModule>();
             Commands.RegisterCommands<MathsModule>();
+            Commands.RegisterCommands<UtilityModule>();
 
 
             await Client.ConnectAsync();
