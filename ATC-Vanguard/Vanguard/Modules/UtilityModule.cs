@@ -12,6 +12,13 @@ namespace ATC_Vanguard.Vanguard.Modules
 {
     internal class UtilityModule : BaseCommandModule
     {
+        [Command("ping")]
+        public async Task PingAsync(CommandContext ctx)
+        {
+            var latency = ctx.Client.Ping;
+            await ctx.Channel.SendMessageAsync($"Pong! `{latency}ms`");
+        }
+
         [Command("pollv4")]
         public async Task PollV4(CommandContext ctx, string op1, string op2, string op3, string op4, [RemainingText] string pollTitle)
         {
