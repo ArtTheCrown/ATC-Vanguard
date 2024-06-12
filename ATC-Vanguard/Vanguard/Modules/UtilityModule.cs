@@ -12,7 +12,7 @@ namespace ATC_Vanguard.Vanguard.Modules
 {
     internal class UtilityModule : BaseCommandModule
     {
-        [Command("poll")]
+        [Command("pollv4")]
         public async Task Poll(CommandContext ctx, string op1, string op2, string op3, string op4, [RemainingText] string pollTitle)
         {
             var interactivity = Program.Client.GetInteractivity();
