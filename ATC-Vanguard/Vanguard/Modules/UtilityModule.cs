@@ -132,5 +132,58 @@ namespace ATC_Vanguard.Vanguard.Modules
 
             await ctx.Channel.SendMessageAsync(embed: resultEmbed);
         }
+
+        [Command("pollv2")]
+        public async Task PollV2(CommandContext ctx, string op1, string op2, string op3, [RemainingText] string pollTitle)
+        {
+            var interactivity = Program.Client.GetInteractivity();
+            var pollTime = TimeSpan.FromSeconds(10);
+
+            DiscordEmoji[] emojiOptions = { DiscordEmoji.FromName(Program.Client, ":one:"),
+                                            DiscordEmoji.FromName(Program.Client, ":two:") };
+
+            string optionsDescription = $"{emojiOptions[0]} | {op1}\n" +
+                                        $"{emojiOptions[1]} | {op2}\n";
+
+            var pollMessage = new DiscordEmbedBuilder
+            {
+                Color = DiscordColor.Red,
+                Title = pollTitle,
+                Description = optionsDescription
+            };
+
+            var sentPoll = await ctx.Channel.SendMessageAsync(embed: pollMessage);
+
+            foreach (var emoji in emojiOptions)
+            {
+                await sentPoll.CreateReactionAsync(emoji);
+            }
+
+            var totalReactions = await interactivity.CollectReactionsAsync(sentPoll, pollTime);
+
+            int count1 = 0;
+            int count2 = 0;
+
+            foreach (var emoji in totalReactions)
+            {
+                if (emoji.Emoji == emojiOptions[0]) count1++;
+                if (emoji.Emoji == emojiOptions[1]) count2++;
+            }
+
+            int totalVotes = count1 + count2;
+
+            string resultDescription = $"{emojiOptions[0]} | {count1}\n" +
+                                        $"{emojiOptions[1]} | {count2}\n" +
+                                        $"Total votes: {totalVotes}";
+
+            var resultEmbed = new DiscordEmbedBuilder
+            {
+                Color = DiscordColor.Green,
+                Title = "Results of the poll",
+                Description = resultDescription
+            };
+
+            await ctx.Channel.SendMessageAsync(embed: resultEmbed);
+        }
     }
 }
