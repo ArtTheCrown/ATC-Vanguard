@@ -15,7 +15,7 @@ namespace ATC_Vanguard.Vanguard
 
         public async Task ReadJSON()
         {
-            using(StreamReader sr = new StreamReader("VanguardSettings.json"))
+            using(StreamReader sr = new StreamReader("ArtTheCrown/VanguardSettings.json"))
             {
                 string json = await sr.ReadToEndAsync();
                 JSONStructure data = JsonConvert.DeserializeObject<JSONStructure>(json);
