@@ -55,14 +55,14 @@ namespace ATC_Vanguard.Vanguard
             Commands = Client.UseCommandsNext(commandsConfig);
 
             var slashCommands = Client.UseSlashCommands();
-            ulong debugGuildId = 1220427226315620403;
+            ulong debugGuildId = "DEBUG GUILD ID HERE";
 
             Commands.RegisterCommands<GeneralModule>();
             
 
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
-
+            slashCommands.RegisterCommands<ModerationModuleSL>(debugGuildId);
             
 
             Commands.CommandErrored += Commands_CommandErrored;
