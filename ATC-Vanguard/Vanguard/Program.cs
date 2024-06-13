@@ -6,6 +6,10 @@ using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.Interactivity;
 using System;
 using System.Threading.Tasks;
+using DSharpPlus.Entities;
+using DSharpPlus.CommandsNext.Exceptions;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.SlashCommands;
 
 namespace ATC_Vanguard.Vanguard
 {
@@ -24,7 +28,7 @@ namespace ATC_Vanguard.Vanguard
                 Intents = DiscordIntents.All,
                 Token = jsonReader.token,
                 TokenType = TokenType.Bot,
-                AutoReconnect = true
+                AutoReconnect = true,
             };
 
             Client = new DiscordClient(discordConfig);
@@ -37,6 +41,7 @@ namespace ATC_Vanguard.Vanguard
 
 
             Client.Ready += Client_Ready;
+            Client.MessageCreated += Message_Created;
 
             var commandsConfig = new CommandsNextConfiguration()
             {
@@ -49,17 +54,57 @@ namespace ATC_Vanguard.Vanguard
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
+            var slashCommands = Client.UseSlashCommands();
+            ulong debugGuildId = 1220427226315620403;
+
             Commands.RegisterCommands<GeneralModule>();
+            
+
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
 
+            
+
+            Commands.CommandErrored += Commands_CommandErrored;
+
 
             await Client.ConnectAsync();
+
             await Task.Delay(-1);
         }
 
-        private static Task Client_Ready(DiscordClient sender, ReadyEventArgs args)
+        private static Task Commands_CommandErrored(CommandsNextExtension sender, CommandErrorEventArgs e)
         {
+            if(e.Exception is ChecksFailedException exception)
+            {
+                string timeLeft = string.Empty;
+                foreach(var check in exception.FailedChecks)
+                {
+                    var coolDown = (CooldownAttribute)check;
+                    timeLeft = coolDown.GetRemainingCooldown(e.Context).ToString(@"hh\:mm\:ss");
+                }
+
+                var CoolDownMessage = new DiscordEmbedBuilder
+                {
+                    Color = DiscordColor.Red,
+                    Title = "Please wait for the cooldown to end",
+                    Description = $"Time: {timeLeft}"
+                };
+
+                e.Context.RespondAsync(embed: CoolDownMessage);
+            }
+            return Task.CompletedTask;
+        }
+
+        private static Task Message_Created(DiscordClient sender, MessageCreateEventArgs e)
+        {
+            return Task.CompletedTask;
+        }
+
+        private static Task Client_Ready(DiscordClient sender, ReadyEventArgs e)
+        {
+            sender.UpdateStatusAsync(new DiscordActivity("with Fire", ActivityType.Playing), UserStatus.DoNotDisturb);
+
             return Task.CompletedTask;
         }
     }

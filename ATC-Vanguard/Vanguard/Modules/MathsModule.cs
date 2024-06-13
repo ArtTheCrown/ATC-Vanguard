@@ -10,20 +10,14 @@ namespace ATC_Vanguard.Vanguard.Modules
 {
     public class MathsModule : BaseCommandModule
     {
-        [Command("sum")]
-        public async Task Add(CommandContext ctx, int num1, int num2)
+        [Group("math")]
+        public class MathCommands
         {
-            int result = num1 + num2;
+            [Command("add")]
+            public Task AddAsync(CommandContext context, int a, int b) => context.RespondAsync($"{a} + {b} = {a + b}");
 
-            await ctx.RespondAsync($"{result}");
-        }
-
-        [Command("subtract")]
-        public async Task Subtract(CommandContext ctx, int num1, int num2)
-        {
-            int result = num1 - num2;
-
-            await ctx.RespondAsync($"{result}");
+            [Command("subtract")]
+            public Task SubtractAsync(CommandContext context, int a, int b) => context.RespondAsync($"{a} - {b} = {a - b}");
         }
     }
 }
