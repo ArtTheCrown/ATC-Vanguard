@@ -58,14 +58,17 @@ namespace ATC_Vanguard.Vanguard
             ulong debugGuildId = 1220427226315620403;
 
             Commands.RegisterCommands<GeneralModule>();
-            
+           // slashCommands.RegisterCommands<ModerationModuleSL>();
 
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
-            slashCommands.RegisterCommands<ModerationModuleSL>(debugGuildId);
+
             
 
             Commands.CommandErrored += Commands_CommandErrored;
+
+
+            
 
 
             await Client.ConnectAsync();
@@ -103,7 +106,7 @@ namespace ATC_Vanguard.Vanguard
 
         private static Task Client_Ready(DiscordClient sender, ReadyEventArgs e)
         {
-            sender.UpdateStatusAsync(new DiscordActivity("with Fire", ActivityType.Playing), UserStatus.DoNotDisturb);
+            sender.UpdateStatusAsync(new DiscordActivity("!help", ActivityType.ListeningTo), UserStatus.DoNotDisturb);
 
             return Task.CompletedTask;
         }
