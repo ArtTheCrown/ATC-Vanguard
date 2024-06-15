@@ -70,11 +70,20 @@ namespace ATC_Vanguard.Vanguard.Modules
 
             List<string> validWords = system.ValidWords;
 
+            List<string> PreservedList = new List<string>();
+           
+            foreach(string word in validWords)
+            {
+                PreservedList.Add(word);
+            }
+
+            List<string> GuessedWords = new List<string>();
+
 
             var gibrishEmbed = new DiscordEmbedBuilder
             {
                 Title = "Find all the valid words from the text below:",
-                Description = $"{system.Result}\n\n ||{string.Join("||, ||", validWords)}||",
+                Description = $"{system.Result}\n\n ||{string.Join("||, ||", PreservedList)}||",
                 Color = DiscordColor.Green
             };
 
@@ -91,18 +100,40 @@ namespace ATC_Vanguard.Vanguard.Modules
                     TimeSpan.FromMinutes(2)
                 );
 
-                // Check if a message was successfully received
+
                 if (messageResult.Result.Content != null)
                 {
-                    string userInput = messageResult.Result.Content.ToLower(); // Get user input (convert to lowercase)
+                    string userInput = messageResult.Result.Content.ToLower();
 
 
                     if (validWords.Contains(userInput))
                     {
                         validWords.RemoveAll(word => word.Equals(userInput));
+                        GuessedWords.Add(userInput);
                         score++;
                         //await ctx.Channel.SendMessageAsync($"Correct! Score: {score} Remaining: {validWords.Count}");
 
+                        StringBuilder str = new StringBuilder();
+                        foreach(string word in PreservedList)
+                        {
+                            if (GuessedWords.Contains(word))
+                            {
+                                str.Append($"{word} ");
+                            }
+                            else
+                            {
+                                str.Append($"||{word}|| ");
+                            }
+                        }
+
+                        var modifiedMessage = new DiscordEmbedBuilder
+                        {
+                            Title = "Find all the valid words from the text below:",
+                            Description = $"{system.Result}\n\n {str.ToString()}",
+                            Color = DiscordColor.Green
+                        };
+
+                        await message.ModifyAsync(embed: modifiedMessage.Build());
                         await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":white_check_mark:"));
                     }
                     else if(userInput == "!ahriquitgame")
