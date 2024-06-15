@@ -58,7 +58,8 @@ namespace ATC_Vanguard.Vanguard
             ulong debugGuildId = 1220427226315620403;
 
             Commands.RegisterCommands<GeneralModule>();
-           // slashCommands.RegisterCommands<ModerationModuleSL>();
+            Commands.RegisterCommands<GamesModule>();
+            // slashCommands.RegisterCommands<ModerationModuleSL>();
 
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
