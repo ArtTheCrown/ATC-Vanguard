@@ -83,7 +83,7 @@ namespace ATC_Vanguard.Vanguard.Modules
             var gibrishEmbed = new DiscordEmbedBuilder
             {
                 Title = "Find all the valid words from the text below:",
-                Description = $"{system.Result}\n\n ||{string.Join("||, ||", PreservedList)}||",
+                Description = $"{system.Result}\n\n ||{string.Join("|| ||", PreservedList)}||",
                 Color = DiscordColor.Green
             };
 
