@@ -10,7 +10,8 @@ using DSharpPlus.Entities;
 
 namespace ATC_Vanguard.Vanguard.Modules
 {
-    internal class UtilityModule : BaseCommandModule
+    [Group("utility")]
+    public class UtilityModule : BaseCommandModule
     {
         [Command("ping")]
         public async Task PingAsync(CommandContext ctx)
