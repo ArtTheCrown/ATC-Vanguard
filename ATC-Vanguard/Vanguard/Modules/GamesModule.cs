@@ -97,7 +97,7 @@ namespace ATC_Vanguard.Vanguard.Modules
 
                 var messageResult = await interactivity.WaitForMessageAsync(
                     x => x.Channel.Id == ctx.Channel.Id && !x.Author.IsBot,
-                    TimeSpan.FromMinutes(2)
+                    TimeSpan.FromMinutes(5)
                 );
 
 
