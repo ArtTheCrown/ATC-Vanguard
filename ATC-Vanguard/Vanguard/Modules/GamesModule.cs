@@ -5,6 +5,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,7 @@ namespace ATC_Vanguard.Vanguard.Modules
         public async Task FindTheWords(CommandContext ctx, int level)
         {
             var interactivity = ctx.Client.GetInteractivity();
-            await ctx.TriggerTypingAsync(); 
+            await ctx.TriggerTypingAsync();
 
 
             FindWordsGameSystem system = new FindWordsGameSystem(level);
@@ -71,8 +72,8 @@ namespace ATC_Vanguard.Vanguard.Modules
             List<string> validWords = system.ValidWords;
 
             List<string> PreservedList = new List<string>();
-           
-            foreach(string word in validWords)
+
+            foreach (string word in validWords)
             {
                 PreservedList.Add(word);
             }
@@ -92,9 +93,9 @@ namespace ATC_Vanguard.Vanguard.Modules
 
             int score = 0;
 
-            while (score < validWords.Count)
-            {
 
+            while (score < PreservedList.Count)
+            {
                 var messageResult = await interactivity.WaitForMessageAsync(
                     x => x.Channel.Id == ctx.Channel.Id && !x.Author.IsBot,
                     TimeSpan.FromMinutes(5)
@@ -114,7 +115,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                         //await ctx.Channel.SendMessageAsync($"Correct! Score: {score} Remaining: {validWords.Count}");
 
                         StringBuilder str = new StringBuilder();
-                        foreach(string word in PreservedList)
+                        foreach (string word in PreservedList)
                         {
                             if (GuessedWords.Contains(word))
                             {
@@ -136,9 +137,9 @@ namespace ATC_Vanguard.Vanguard.Modules
                         await message.ModifyAsync(embed: modifiedMessage.Build());
                         await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":white_check_mark:"));
                     }
-                    else if(userInput == "!ahriquitgame")
+                    else if (userInput == "!ahriquitgame")
                     {
-                        await ctx.Channel.SendMessageAsync("Exiting the game!..");
+                        await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
                         break;
                     }
                     else if (userInput == "!ahrihelp")
@@ -156,7 +157,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                     await ctx.Channel.SendMessageAsync("No response received within 2 minutes. Game ended.");
                     break;
                 }
-            }
+            }  
         }
     }
 }
