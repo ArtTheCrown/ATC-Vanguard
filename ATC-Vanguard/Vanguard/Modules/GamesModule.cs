@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
+using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace ATC_Vanguard.Vanguard.Modules
 
             var gibrishEmbed = new DiscordEmbedBuilder
             {
-                Title = "Find all the valid words from the text below:",
+                Title = "**`Find valid english words from the text below:`**",
                 Description = $"{system.Result}\n\n ||{string.Join("|| ||", PreservedList)}||",
                 Color = DiscordColor.Green
             };
@@ -150,6 +151,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                     {
                         // await ctx.Channel.SendMessageAsync("Invalid word. Try again.");
                         await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":x:"));
+                        await DeleteMessage(messageResult, TimeSpan.FromSeconds(3));
                     }
                 }
                 else
@@ -158,6 +160,13 @@ namespace ATC_Vanguard.Vanguard.Modules
                     break;
                 }
             }  
+        }
+
+        private async Task DeleteMessage(InteractivityResult<DiscordMessage> ctx, TimeSpan timeSpan)
+        {
+            await Task.Delay(timeSpan);
+
+            await ctx.Result.DeleteAsync();
         }
     }
 }

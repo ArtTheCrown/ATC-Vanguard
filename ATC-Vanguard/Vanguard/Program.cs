@@ -49,19 +49,24 @@ namespace ATC_Vanguard.Vanguard
                 EnableMentionPrefix = true,
                 EnableDms = true,
                 EnableDefaultHelp = true,
-                DmHelp = true
+                DmHelp = true,
+                IgnoreExtraArguments = true,
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
-            var slashCommands = Client.UseSlashCommands();
+            // var slashCommands = Client.UseSlashCommands();
             ulong debugGuildId = 1220427226315620403;
 
             Commands.RegisterCommands<GeneralModule>();
             Commands.RegisterCommands<GamesModule>();
-            slashCommands.RefreshCommands();
-            slashCommands.RegisterCommands<ModerationModuleSL>();
-            slashCommands.RegisterCommands<TestSlashCommands>();
+
+
+           // slashCommands.RefreshCommands();
+           // slashCommands.RegisterCommands<ModerationModuleSL>();
+           // slashCommands.RegisterCommands<TestSlashCommands>();
+
+
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
 
