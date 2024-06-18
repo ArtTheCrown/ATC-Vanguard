@@ -59,8 +59,9 @@ namespace ATC_Vanguard.Vanguard
 
             Commands.RegisterCommands<GeneralModule>();
             Commands.RegisterCommands<GamesModule>();
-            // slashCommands.RegisterCommands<ModerationModuleSL>();
-
+            slashCommands.RefreshCommands();
+            slashCommands.RegisterCommands<ModerationModuleSL>();
+            slashCommands.RegisterCommands<TestSlashCommands>();
             Commands.RegisterCommands<MathsModule>();
             Commands.RegisterCommands<UtilityModule>();
 

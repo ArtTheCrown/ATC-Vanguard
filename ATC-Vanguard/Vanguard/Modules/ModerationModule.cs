@@ -51,7 +51,7 @@ namespace ATC_Vanguard.Vanguard.Modules
         [SlashCommand("punish", "Punish a user")]
         public async Task Punish(InteractionContext ctx,
                                         [Option("User", "User you want to punish")] DiscordMember user,
-                                        [Option("Reason", "Reason for the punishment")] string reason = "None")
+                                        [Option("Reason", "Reason for the punishment")] string reason)
         {
             // Check if the command issuer has administrator permissions
             if (!ctx.Member.Permissions.HasFlag(Permissions.Administrator))
