@@ -108,7 +108,9 @@ namespace ATC_Vanguard.Vanguard
 
         private static Task Client_Ready(DiscordClient sender, ReadyEventArgs e)
         {
-            sender.UpdateStatusAsync(new DiscordActivity("!help", ActivityType.ListeningTo), UserStatus.DoNotDisturb);
+            //sender.UpdateStatusAsync(new DiscordActivity("!help"), UserStatus.DoNotDisturb);
+
+            sender.UpdateStatusAsync(new DiscordActivity("雷電様の命令に", ActivityType.ListeningTo), UserStatus.DoNotDisturb);
 
             return Task.CompletedTask;
         }
