@@ -48,9 +48,9 @@ namespace ATC_Vanguard.Vanguard
                 StringPrefixes = new string[] { jsonReader.prefix },
                 EnableMentionPrefix = true,
                 EnableDms = true,
-                EnableDefaultHelp = true,
-                DmHelp = true,
-                IgnoreExtraArguments = true,
+                EnableDefaultHelp = false,
+                DmHelp = false,
+                IgnoreExtraArguments = true, 
             };
 
             Commands = Client.UseCommandsNext(commandsConfig);
@@ -60,11 +60,11 @@ namespace ATC_Vanguard.Vanguard
 
             Commands.RegisterCommands<GeneralModule>();
             Commands.RegisterCommands<GamesModule>();
+            Commands.RegisterCommands<VanguardModule>();
 
-
-           // slashCommands.RefreshCommands();
-           // slashCommands.RegisterCommands<ModerationModuleSL>();
-           // slashCommands.RegisterCommands<TestSlashCommands>();
+            // slashCommands.RefreshCommands();
+            // slashCommands.RegisterCommands<ModerationModuleSL>();
+            // slashCommands.RegisterCommands<TestSlashCommands>();
 
 
             Commands.RegisterCommands<MathsModule>();
