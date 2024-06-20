@@ -6,10 +6,12 @@ using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Media.Animation;
 
 namespace ATC_Vanguard.Vanguard.Modules
@@ -63,103 +65,129 @@ namespace ATC_Vanguard.Vanguard.Modules
         }
 
         [Command("findwords")]
-        public async Task FindTheWords(CommandContext ctx, int level)
+        public async Task FindTheWords(CommandContext ctx, int level = 1)
         {
-            var interactivity = ctx.Client.GetInteractivity();
-            await ctx.TriggerTypingAsync();
-
-            FindWordsScore scoreBoard = new FindWordsScore();
-            scoreBoard.GetPlayer(ctx.User.Username);
-
-            FindWordsGameSystem system = new FindWordsGameSystem(level);
-
-            List<string> validWords = system.ValidWords;
-
-            List<string> PreservedList = new List<string>();
-
-            foreach (string word in validWords)
+            if (level >= 7 || level <= 0)
             {
-                PreservedList.Add(word);
+                await ctx.Channel.SendMessageAsync("**Select a level between `1 - 6`**");
             }
-
-            List<string> GuessedWords = new List<string>();
-
-
-            var gibrishEmbed = new DiscordEmbedBuilder
+            else
             {
-                Title = "**`Find valid english words from the text below:`**",
-                Description = $"{system.Result}\n\n ||{string.Join("|| ||", PreservedList)}||",
-                Color = DiscordColor.Green
-            };
+                var interactivity = ctx.Client.GetInteractivity();
+                await ctx.TriggerTypingAsync();
 
+                FindWordsScore scoreBoard = new FindWordsScore();
+                scoreBoard.GetPlayer(ctx.User.Username);
 
-            var message = await ctx.Channel.SendMessageAsync(embed: gibrishEmbed);
+                FindWordsGameSystem system = new FindWordsGameSystem(level);
 
-            int score = 0;
+                List<string> validWords = system.ValidWords;
 
+                List<string> PreservedList = new List<string>();
 
-            while (score < PreservedList.Count)
-            {
-                var messageResult = await interactivity.WaitForMessageAsync(
-                    x => x.Channel.Id == ctx.Channel.Id && !x.Author.IsBot,
-                    TimeSpan.FromMinutes(5)
-                );
-
-
-                if (messageResult.Result.Content != null)
+                foreach (string word in validWords)
                 {
-                    string userInput = messageResult.Result.Content.ToLower();
+                    PreservedList.Add(word);
+                }
+
+                List<string> GuessedWords = new List<string>();
 
 
-                    if (validWords.Contains(userInput))
+                var gibrishEmbed = new DiscordEmbedBuilder
+                {
+                    Title = "**`Find valid english words from the text below:`**",
+                    Description = $"{system.Result}\n\n ||{string.Join("|| ||", PreservedList)}||",
+                    Color = DiscordColor.Green
+                };
+
+
+                var message = await ctx.Channel.SendMessageAsync(embed: gibrishEmbed);
+
+                int score = 0;
+
+
+                while (score < PreservedList.Count)
+                {
+                    var messageResult = await interactivity.WaitForMessageAsync(
+                        x => x.Channel.Id == ctx.Channel.Id && !x.Author.IsBot,
+                        TimeSpan.FromMinutes(5)
+                    );
+
+
+                    if (messageResult.Result.Content != null)
                     {
-                        validWords.RemoveAll(word => word.Equals(userInput));
-                        GuessedWords.Add(userInput);
-                        score++;
-                        //await ctx.Channel.SendMessageAsync($"Correct! Score: {score} Remaining: {validWords.Count}");
+                        string userInput = messageResult.Result.Content.ToLower();
 
 
-                        scoreBoard.GetPlayer(messageResult.Result.Author.Username).correct += 1;
+                        if (validWords.Contains(userInput))
+                        {
+                            validWords.RemoveAll(word => word.Equals(userInput));
+                            GuessedWords.Add(userInput);
+                            score++;
+                            //await ctx.Channel.SendMessageAsync($"Correct! Score: {score} Remaining: {validWords.Count}");
 
 
-                        await message.ModifyAsync(embed: GenerateUpdatedMessage(system, scoreBoard, PreservedList, GuessedWords).Build());
+                            scoreBoard.GetPlayer(messageResult.Result.Author.Username).correct += 1;
 
 
-                        var emojiString = "<:pinkFlower:1252523784959819787>";
-
-                        var customEmoji = DiscordEmoji.FromGuildEmote(Program.Client, ulong.Parse(emojiString.Split(':')[2].TrimEnd('>')));
-
-                        await messageResult.Result.CreateReactionAsync(customEmoji);
+                            await message.ModifyAsync(embed: GenerateUpdatedMessage(system, scoreBoard, PreservedList, GuessedWords).Build());
 
 
-                        DeleteMessage(messageResult, TimeSpan.FromSeconds(4));
-                    }
-                    else if (userInput == "!endgame")
-                    {
-                        await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
-                        break;
-                    }
-                    else if (userInput == "!ahrihelp")
-                    {
-                        await ctx.Channel.SendMessageAsync($"Valid words: {string.Join(", ", validWords)}");
+                            var emojiString = "<:pinkFlower:1252523784959819787>";
+
+                            var customEmoji = DiscordEmoji.FromGuildEmote(Program.Client, ulong.Parse(emojiString.Split(':')[2].TrimEnd('>')));
+
+                            await messageResult.Result.CreateReactionAsync(customEmoji);
+
+
+                            DeleteMessage(messageResult, TimeSpan.FromSeconds(4));
+                        }
+                        else if (userInput == "!endgame")
+                        {
+                            await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
+                            break;
+                        }
+                        else if (userInput == "!ahrihelp")
+                        {
+                            await ctx.Channel.SendMessageAsync($"Valid words: {string.Join(", ", validWords)}");
+                        }
+                        else
+                        {
+                            scoreBoard.GetPlayer(messageResult.Result.Author.Username).incorrect += 1;
+
+
+                            // await ctx.Channel.SendMessageAsync("Invalid word. Try again.");
+                            await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":x:"));
+                            DeleteMessage(messageResult, TimeSpan.FromSeconds(1));
+                        }
                     }
                     else
                     {
-                        scoreBoard.GetPlayer(messageResult.Result.Author.Username).incorrect += 1;
-
-
-                        // await ctx.Channel.SendMessageAsync("Invalid word. Try again.");
-                        await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":x:"));
-                        DeleteMessage(messageResult, TimeSpan.FromSeconds(1));
+                        await ctx.Channel.SendMessageAsync("No response received within 2 minutes. Game ended.");
+                        break;
                     }
                 }
-                else
-                {
-                    await ctx.Channel.SendMessageAsync("No response received within 2 minutes. Game ended.");
-                    break;
-                }
-            }  
+            }            
         }
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private DiscordEmbedBuilder GenerateUpdatedMessage(FindWordsGameSystem system, FindWordsScore scoreBoard, List<string> PreservedList, List<string> GuessedWords)
         {

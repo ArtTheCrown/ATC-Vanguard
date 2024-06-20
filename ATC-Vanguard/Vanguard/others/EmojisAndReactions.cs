@@ -8,6 +8,13 @@ namespace ATC_Vanguard.Vanguard.others
 {
     public static class EmojisAndReactions
     {
+        public static async Task ReactWithAsync()
+        {
 
+        }
+        public static void ReactWith()
+        {
+
+        }
     }
 }
