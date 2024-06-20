@@ -16,7 +16,7 @@ namespace ATC_Vanguard.Vanguard
     public class Program
     {
         public static DiscordClient Client { get; set; }
-        private static CommandsNextExtension Commands { get; set; }
+        public static CommandsNextExtension Commands { get; set; }
 
         public static async Task Main()
         {

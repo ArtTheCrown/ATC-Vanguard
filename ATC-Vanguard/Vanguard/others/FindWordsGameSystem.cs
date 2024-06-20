@@ -12,7 +12,7 @@ namespace ATC_Vanguard.Vanguard.others
 
         private static readonly List<string> EnglishWords = new List<string>
         {
-            "able", "about", "above", "accept", "accident", "account", "accurate", "across", "act",
+            "able", "weep", "lease", "about", "above", "accept", "accident", "account", "accurate", "across", "act",
             "action", "active", "actor", "actual", "add", "address", "admire", "admit", "adopt", "adult",
             "adventure", "advertise", "advise", "affair", "affect", "afford", "afraid", "after", "again", "against",
             "age", "agency", "agent", "agree", "ahead", "aim", "air", "airplane", "airport", "alarm",
@@ -34,8 +34,8 @@ namespace ATC_Vanguard.Vanguard.others
             "bother", "bottle", "bottom", "bowl", "box", "boy", "brain", "branch", "brave", "bread",
             "break", "breakfast", "breath", "brick", "bridge", "brief", "bright", "bring", "broad", "brother",
             "brown", "brush", "build", "building", "bump", "burn", "bus", "business", "busy", "but",
-            "butter", "button", "buy", "by", "cabinet", "cable", "cake", "calculate", "call", "camera",
-            "camp", "campaign", "campus", "can", "cancel", "cancer", "candidate", "cap", "capital", "car",
+            "butter", "button", "buy", "cabinet", "cable", "cake", "calculate", "call", "camera","cent",
+            "camp", "campaign", "campus", "can", "cancel", "cancer", "candidate", "cap", "chop", "capital", "car",
             "card", "care", "career", "careful", "careless", "carry", "case", "cash", "cast", "cat",
             "catch", "category", "cause", "ceiling", "celebrate", "cell", "center", "century", "certain", "chair",
             "challenge", "chance", "change", "channel", "chapter", "character", "charge", "chart", "cheap", "check",
@@ -61,7 +61,7 @@ namespace ATC_Vanguard.Vanguard.others
             "develop", "development", "device", "devil", "die", "diet", "difference", "different", "difficult", "difficulty",
             "dig", "dimension", "dinner", "direct", "direction", "director", "dirt", "dirty", "disagree", "disappear",
             "disaster", "discuss", "discussion", "disease", "dish", "dismiss", "distance", "distant", "distribute", "district",
-            "divide", "division", "divorce", "do", "doctor", "document", "dog", "doll", "dollar", "door",
+            "divide", "division", "divorce", "doctor", "document", "dog", "doll", "dollar", "door",
             "dot", "double", "doubt", "down", "dozen", "draft", "drag", "drama", "draw", "drawer",
             "dream", "dress", "drink", "drive", "driver", "drop", "drug", "dry", "due", "during",
             "dust", "duty", "each", "ear", "early", "earn", "earth", "ease", "east", "easy",
@@ -78,7 +78,7 @@ namespace ATC_Vanguard.Vanguard.others
             "extension", "extensive", "extent", "extra", "extreme", "eye", "face", "facility", "fact", "factor",
             "factory", "fail", "failure", "fair", "fairly", "faith", "fall", "false", "familiar", "family",
             "famous", "fan", "fantasy", "far", "farm", "farmer", "fashion", "fast", "fat", "fate",
-            "father", "fault", "favor", "favorite", "fear", "feature", "federal", "fee", "feed", "feel",
+            "father", "fault", "favor", "favorite", "fear", "feature", "federal", "fee", "feed","fed", "feel",
             "feeling", "fellow", "female", "fence", "few", "fiber", "fiction", "field", "fifteen", "fifth",
             "fifty", "fight", "figure", "file", "fill", "film", "final", "finally", "finance", "financial",
             "find", "finding", "fine", "finger", "finish", "fire", "firm", "first", "fish", "fit",
@@ -115,7 +115,7 @@ namespace ATC_Vanguard.Vanguard.others
             "intellectual", "intelligence", "intelligent", "intend", "intense", "intensity", "intention", "interaction", "interest", "interested",
             "interesting", "internal", "international", "internet", "ink","inking", "interpret", "interpretation", "intervention", "interview", "into", "introduce",
             "introduction", "invest", "investigate", "investigation", "investment", "investor", "invite", "involve", "involvement", "Iraqi",
-            "Irish", "iron", "Islamic", "island", "Israeli", "issue", "Italian", "item", "its",
+            "Irish", "iron", "Islamic", "island", "Israeli", "issue", "Italian", "item",
             "itself", "jacket", "jail", "Japanese", "jet", "Jew", "Jewish", "job", "join", "joint",
             "joke", "journal", "journalist", "journey", "joy", "judge", "judgment", "juice", "jump", "junior",
             "jury", "just", "justice", "justify", "keep", "key", "kick", "kid", "kill", "killer",
@@ -143,11 +143,11 @@ namespace ATC_Vanguard.Vanguard.others
             "modest", "mom", "moment", "money", "monitor", "month", "mood", "moon", "moral", "more",
             "moreover", "morning", "mortgage", "most", "mostly", "mother", "motion", "motivation", "motor", "mountain",
             "mouse", "mouth", "move", "movement", "movie", "much", "multiple",
-            "murder", "muscle", "museum", "music", "musical", "musician", "Muslim", "must", "my", "myself",
+            "murder", "muscle", "museum", "music", "musical", "musician", "Muslim", "must", "myself",
             "mystery", "myth", "naked", "name", "narrative", "narrow", "nation", "national", "native", "natural",
             "naturally", "nature", "near", "nearby", "nearly", "necessarily", "necessary", "neck", "need", "negative",
             "negotiate", "negotiation", "neighbor", "neighborhood", "neither", "nerve", "nervous", "net", "network", "never",
-            "nevertheless", "new", "newly", "news", "newspaper", "next", "nice", "night", "nine", "no",
+            "nevertheless", "new", "newly", "news", "newspaper", "next", "nice", "night", "nine",
             "nobody", "nod", "noise", "nomination", "none", "nonetheless", "nor", "normal", "normally", "north",
             "northern", "nose", "not", "note", "nothing", "notice", "notion", "novel", "now", "nowhere",
             "nuclear", "number", "numerous", "nurse", "nut", "object", "objective", "obligation", "observation", "observe",
@@ -217,7 +217,7 @@ namespace ATC_Vanguard.Vanguard.others
             "silver", "similar", "similarly", "simple", "simply", "sin", "since", "sing", "singer", "single",
             "sink", "sir", "sister", "sit", "sat", "site", "situation", "six", "size", "ski", "skill",
             "skin", "sky", "slave", "sleep", "slice", "slide", "slight", "slightly", "slip", "slow",
-            "slowly", "small", "smart", "smell", "smile", "smoke", "smooth", "snap", "snow", "so",
+            "slowly", "small", "smart", "smell", "smile", "smoke", "smooth", "snap", "snow",
             "so-called", "soccer", "social", "society", "soft", "software", "soil", "solar", "soldier", "solid",
             "solution", "solve", "some", "somebody", "somehow", "someone", "something", "sometimes", "somewhat", "somewhere",
             "son", "song", "soon", "sophisticated", "sorry", "sort", "soul", "sound", "soup", "source",
@@ -235,7 +235,7 @@ namespace ATC_Vanguard.Vanguard.others
             "supporter", "suppose", "supposed", "Supreme", "sure", "surely", "surface", "surgery", "surprise", "surprised",
             "surprising", "surprisingly", "surround", "survey", "survival", "survive", "survivor", "suspect", "sustain", "swear",
             "sweep", "sweet", "swim", "swing", "switch", "symbol", "symptom", "system", "table", "tablespoon",
-            "tactic", "tail", "take", "tale", "talent", "talk", "tall", "tank", "tap", "tape",
+            "tactic", "tail", "take", "tale", "talent", "talk", "tall", "tank", "tan", "tap", "tape",
             "target", "task", "taste", "tax", "taxpayer", "tea", "teach", "teacher", "teaching", "team",
             "tear", "teaspoon", "technical", "technique", "technology", "teen", "teenager", "telephone", "telescope", "television",
             "tell", "temperature", "temporary", "ten", "tend", "tendency", "tennis", "tension", "tent", "term",
@@ -255,7 +255,7 @@ namespace ATC_Vanguard.Vanguard.others
             "typical", "typically", "ugly", "ultimate", "ultimately", "unable", "uncle", "under","uno", "undergo", "understand",
             "understanding", "unfortunately", "uniform", "union", "unique", "unit", "United", "universal", "universe", "university",
             "unknown", "unless", "unlike", "unlikely", "until", "unusual", "upon", "upper", "urban",
-            "urge", "us", "use", "used", "useful", "user", "usual", "usually", "utility", "vacation",
+            "urge", "use", "used", "useful", "user", "usual", "usually", "utility", "vacation",
             "valley", "valuable", "value", "variable", "variation", "variety", "various", "vary", "vast", "vegetable",
             "vehicle", "venture", "version", "versus", "very", "vessel", "veteran", "via", "victim", "victory",
             "video", "view", "viewer", "village", "violate", "violation", "violence", "violent", "virtually", "virtue",
@@ -351,7 +351,7 @@ namespace ATC_Vanguard.Vanguard.others
                     if (!foundWordsSet.Contains(word)) // Check if word is already in HashSet
                     {
                         foundWordsSet.Add(word); // Add to HashSet
-                        foundWords.Add(word);   // Add to List
+                        foundWords.Add(word.ToLower());   // Add to List
                     }
                 }
             }
@@ -360,4 +360,31 @@ namespace ATC_Vanguard.Vanguard.others
         }
 
     }
+
+    public class FindWordsScore
+    {
+        public List<FindWordsPlayer> players { get; set; } = new List<FindWordsPlayer>();
+
+        public FindWordsPlayer GetPlayer(string name)
+        {
+            var player = players.FirstOrDefault(n => n.username == name);
+            if (player != null)
+            {
+                return player;
+            }
+            else
+            {
+                players.Add(new FindWordsPlayer{ username = name });
+                return GetPlayer(name);
+            }
+        }
+    }
+
+    public class FindWordsPlayer
+    {
+        public string username { get; set; }
+        public int correct { get; set; } = 0;
+        public int incorrect { get; set; } = 0;
+    }
 }
+

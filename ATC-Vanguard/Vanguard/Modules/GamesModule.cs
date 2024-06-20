@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace ATC_Vanguard.Vanguard.Modules
 {
@@ -67,6 +68,8 @@ namespace ATC_Vanguard.Vanguard.Modules
             var interactivity = ctx.Client.GetInteractivity();
             await ctx.TriggerTypingAsync();
 
+            FindWordsScore scoreBoard = new FindWordsScore();
+            scoreBoard.GetPlayer(ctx.User.Username);
 
             FindWordsGameSystem system = new FindWordsGameSystem(level);
 
@@ -115,30 +118,23 @@ namespace ATC_Vanguard.Vanguard.Modules
                         score++;
                         //await ctx.Channel.SendMessageAsync($"Correct! Score: {score} Remaining: {validWords.Count}");
 
-                        StringBuilder str = new StringBuilder();
-                        foreach (string word in PreservedList)
-                        {
-                            if (GuessedWords.Contains(word))
-                            {
-                                str.Append($"{word} ");
-                            }
-                            else
-                            {
-                                str.Append($"||{word}|| ");
-                            }
-                        }
 
-                        var modifiedMessage = new DiscordEmbedBuilder
-                        {
-                            Title = "Find all the valid words from the text below:",
-                            Description = $"{system.Result}\n\n {str.ToString()}",
-                            Color = DiscordColor.Green
-                        };
+                        scoreBoard.GetPlayer(messageResult.Result.Author.Username).correct += 1;
 
-                        await message.ModifyAsync(embed: modifiedMessage.Build());
-                        await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":white_check_mark:"));
+
+                        await message.ModifyAsync(embed: GenerateUpdatedMessage(system, scoreBoard, PreservedList, GuessedWords).Build());
+
+
+                        var emojiString = "<:pinkFlower:1252523784959819787>";
+
+                        var customEmoji = DiscordEmoji.FromGuildEmote(Program.Client, ulong.Parse(emojiString.Split(':')[2].TrimEnd('>')));
+
+                        await messageResult.Result.CreateReactionAsync(customEmoji);
+
+
+                        DeleteMessage(messageResult, TimeSpan.FromSeconds(4));
                     }
-                    else if (userInput == "!ahriquitgame")
+                    else if (userInput == "!endgame")
                     {
                         await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
                         break;
@@ -149,9 +145,12 @@ namespace ATC_Vanguard.Vanguard.Modules
                     }
                     else
                     {
+                        scoreBoard.GetPlayer(messageResult.Result.Author.Username).incorrect += 1;
+
+
                         // await ctx.Channel.SendMessageAsync("Invalid word. Try again.");
                         await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":x:"));
-                        await DeleteMessage(messageResult, TimeSpan.FromSeconds(3));
+                        DeleteMessage(messageResult, TimeSpan.FromSeconds(1));
                     }
                 }
                 else
@@ -162,11 +161,45 @@ namespace ATC_Vanguard.Vanguard.Modules
             }  
         }
 
-        private async Task DeleteMessage(InteractivityResult<DiscordMessage> ctx, TimeSpan timeSpan)
+        private DiscordEmbedBuilder GenerateUpdatedMessage(FindWordsGameSystem system, FindWordsScore scoreBoard, List<string> PreservedList, List<string> GuessedWords)
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (string word in PreservedList)
+            {
+                if (GuessedWords.Contains(word))
+                {
+                    str.Append($"{word} ");
+                }
+                else
+                {
+                    str.Append($"||{word}|| ");
+                }
+            }
+
+            StringBuilder scoreStr = new StringBuilder();
+            foreach (FindWordsPlayer player in scoreBoard.players)
+            {
+                string temp = $"**`{player.username}`**\n" +
+                              $"score: `{player.correct}`\n" +
+                              $"\n";
+                scoreStr.Append(temp);
+            }
+
+            var modifiedMessage = new DiscordEmbedBuilder
+            {
+                Title = "**`Find valid english words from the text below:`**",
+                Description = $"{system.Result}\n\n {str.ToString()}\n\n{scoreStr.ToString()}",
+                Color = DiscordColor.Green
+            };
+
+            return modifiedMessage;
+        }
+
+        private async void DeleteMessage(InteractivityResult<DiscordMessage> ctx, TimeSpan timeSpan)
         {
             await Task.Delay(timeSpan);
 
-            await ctx.Result.DeleteAsync();
+            ctx.Result.DeleteAsync();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ATC_Vanguard.Vanguard.Modules
         [Cooldown(5, 30, CooldownBucketType.User)]
         public async Task SayHello(CommandContext ctx)
         {
-            await ctx.Channel.SendMessageAsync($"Hello, {ctx.User.Username}");
+            await ctx.Channel.SendMessageAsync($"Hi.");
         }
     }
 }
