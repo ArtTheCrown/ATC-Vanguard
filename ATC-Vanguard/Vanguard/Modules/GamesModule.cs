@@ -247,7 +247,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                             }
                             else if (userInput == "!helpgame")
                             {
-                                await ctx.Channel.SendMessageAsync($"Hint: `{system.Word}` ");
+                                await ctx.Channel.SendMessageAsync($"Word is: `{system.Word}` ");
                             }
                             else if (userInput == "!skipround")
                             {
@@ -263,7 +263,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                         }
                         else
                         {
-                            await ctx.Channel.SendMessageAsync("No response received within 2 minutes. Game ended.");
+                            await ctx.Channel.SendMessageAsync("No response received within 5 minutes. Game ended.");
                             break;
                         }
                     }
