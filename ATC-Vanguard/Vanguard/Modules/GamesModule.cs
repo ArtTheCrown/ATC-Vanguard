@@ -167,6 +167,26 @@ namespace ATC_Vanguard.Vanguard.Modules
                         break;
                     }
                 }
+                string winStr = "";
+                if (scoreBoard.players.Count > 1)
+                {
+                    winStr = scoreBoard.GetPlayer == null ? $"The game ended in a Tie" : $"{scoreBoard.GetLoser()?.username} bow down to {scoreBoard.GetWinner()?.username}";
+                }else if (validWords.Count <= 0)
+                {
+                    winStr = scoreBoard.GetPlayer == null ? $"**`Error occured while calculating result..`**" : $"{scoreBoard.GetWinner()?.username} won.";
+                }
+                else
+                {
+                    winStr = scoreBoard.GetPlayer == null ? $"**`Error occured while calculating result..`**" : $"{scoreBoard.GetWinner()?.username} won.";
+                }
+
+                DiscordEmbedBuilder gameResult = new DiscordEmbedBuilder 
+                { 
+                    Title = $"{winStr}",
+                    Color = DiscordColor.Blue
+                };
+
+                await message.ModifyAsync(embed: gameResult.Build());
             }            
         }
 
