@@ -170,7 +170,109 @@ namespace ATC_Vanguard.Vanguard.Modules
             }            
         }
 
-       
+        [Command("guesswords")]
+        public async Task GuessTheWords(CommandContext ctx, int level = 1)
+        {
+            if (level >= 7 || level <= 0)
+            {
+                await ctx.Channel.SendMessageAsync("**Select a level between `1 - 6`**");
+            }
+            else
+            {
+                var interactivity = ctx.Client.GetInteractivity();
+                await ctx.TriggerTypingAsync();
+
+                GuessWordsScore scoreBoard = new GuessWordsScore();
+                scoreBoard.GetPlayer(ctx.User.Username);
+
+                var MsgEmbed = new DiscordEmbedBuilder
+                {
+                    Title = $"**Loading..**",
+                    Description = $"\n{scoreBoard.Score()}",
+                    Color = DiscordColor.MidnightBlue
+                };
+
+
+                var message = await ctx.Channel.SendMessageAsync(embed: MsgEmbed);
+
+                bool quit = false;
+
+                while (true)
+                {
+                    
+                    GuessWordsSystem system = new GuessWordsSystem(level);
+
+                    var MsgEmbedEdited = new DiscordEmbedBuilder
+                    {
+                        Title = $"**`{system.Result}`**",
+                        Description = $"\n{scoreBoard.Score()}",
+                        Color = DiscordColor.Green
+                    };
+
+                    await message.ModifyAsync(embed: MsgEmbedEdited.Build());
+                    
+
+                    while (true)
+                    {
+                        var messageResult = await interactivity.WaitForMessageAsync(
+                            x => x.Channel.Id == ctx.Channel.Id && !x.Author.IsBot,
+                            TimeSpan.FromMinutes(5)
+                        );
+
+
+                        if (messageResult.Result.Content != null)
+                        {
+                            string userInput = messageResult.Result.Content.ToLower();
+
+
+                            if (userInput == system.Word)
+                            {                               
+                                scoreBoard.GetPlayer(messageResult.Result.Author.Username).correct += 1;
+
+                                var emojiString = "<:pinkFlower:1252523784959819787>";
+
+                                var customEmoji = DiscordEmoji.FromGuildEmote(Program.Client, ulong.Parse(emojiString.Split(':')[2].TrimEnd('>')));
+
+                                await messageResult.Result.CreateReactionAsync(customEmoji);
+
+
+                                DeleteMessage(messageResult, TimeSpan.FromSeconds(4));
+                                break;
+                            }
+                            else if (userInput == "!endgame")
+                            {
+                                await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
+                                quit = true;
+                                break;
+                            }
+                            else if (userInput == "!helpgame")
+                            {
+                                await ctx.Channel.SendMessageAsync($"Hint: `{system.Word}` ");
+                            }
+                            else if (userInput == "!skipround")
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                scoreBoard.GetPlayer(messageResult.Result.Author.Username).incorrect += 1;
+
+                                await messageResult.Result.CreateReactionAsync(DiscordEmoji.FromName(Program.Client, ":x:"));
+                                DeleteMessage(messageResult, TimeSpan.FromSeconds(1));
+                            }
+                        }
+                        else
+                        {
+                            await ctx.Channel.SendMessageAsync("No response received within 2 minutes. Game ended.");
+                            break;
+                        }
+                    }
+
+                    if (quit) break;
+                }
+            }
+        }
+
 
 
 

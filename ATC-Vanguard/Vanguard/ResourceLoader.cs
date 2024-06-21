@@ -10,15 +10,22 @@ using System.Windows.Documents;
 
 namespace ATC_Vanguard.Vanguard
 {
-    public static class DataLoader
+    public static class ResourceLoader
     {
         public static List<string> wordList { get; set; } = new List<string>();
-
-        public static List<string> LoadWordsList()
+        private static bool loaded = false;
+        public static List<string> GetWordsList()
         {
+            if(loaded) return wordList;
+
+
+
             string[] lines = File.ReadAllLines("ArtTheCrown/wordList.txt");
 
-            return wordList = lines.ToList();
+            wordList = lines.ToList();
+            loaded = true;
+            return wordList;
+            
         }
 
         public static async Task SaveWordsList(List<string> words)

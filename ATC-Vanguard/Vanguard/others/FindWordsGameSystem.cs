@@ -20,7 +20,7 @@ namespace ATC_Vanguard.Vanguard.others
         public FindWordsGameSystem(int level)
         {
             // Load Words list
-            EnglishWords = DataLoader.LoadWordsList(); 
+            EnglishWords = ResourceLoader.GetWordsList(); 
             // Generate gibberish based on the level
             Result = GenerateGibberish(level);
             // Find valid English words in the gibberish
@@ -126,7 +126,7 @@ namespace ATC_Vanguard.Vanguard.others
 
     public class FindWordsPlayer
     {
-        public string username { get; set; }
+        public string? username { get; set; }
         public int correct { get; set; } = 0;
         public int incorrect { get; set; } = 0;
     }
