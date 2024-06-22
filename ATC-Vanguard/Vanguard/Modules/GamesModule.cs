@@ -147,7 +147,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                             await ctx.Channel.SendMessageAsync("**Exiting the game!..**");
                             break;
                         }
-                        else if (userInput == "!ahrihelp")
+                        else if (userInput == "!helpgame")
                         {
                             await ctx.Channel.SendMessageAsync($"Valid words: {string.Join(", ", validWords)}");
                         }
@@ -167,6 +167,7 @@ namespace ATC_Vanguard.Vanguard.Modules
                         break;
                     }
                 }
+
                 string winStr = "";
                 if (scoreBoard.players.Count > 1)
                 {
