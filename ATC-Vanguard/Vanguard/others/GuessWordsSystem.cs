@@ -19,7 +19,7 @@ namespace ATC_Vanguard.Vanguard.others
         {
             Word = GenerateWord(ResourceLoader.GetWordsList(), level);
 
-            Result = GenerateResult(Word);
+            Result = GenerateResult(Word, level);
         }
 
         private string GenerateWord(List<string> words, int level)
@@ -41,13 +41,40 @@ namespace ATC_Vanguard.Vanguard.others
             return word;
         }
 
-        private string GenerateResult(string word)
+        private string GenerateResult(string word, int level)
         {
+            int upLimit = 0;
+            int downLimit = 0;
+            switch (level)
+            {
+                case 1:
+                    upLimit = word.Length - 1;
+                    downLimit = word.Length - 3;
+                    break;
+                case 2:
+                    upLimit = word.Length - 3;
+                    downLimit = word.Length - 5;
+                    break;
+                case 3:
+                    if (word.Length > 7)
+                    {
+                        upLimit = word.Length - 6;
+                        downLimit = word.Length - 7;
+                    }
+                    else
+                    {
+                        upLimit = word.Length - 5;
+                        downLimit = word.Length - 5;
+                    }
+                    break;
+            }
+
+
             Random random = new Random();
             string replacement = "_";
             int replacementLength = replacement.Length;
 
-            int untouchedCount = random.Next(5, 5);
+            int untouchedCount = random.Next(downLimit, upLimit);
             int replaceCount = word.Length - untouchedCount;
 
             StringBuilder result = new StringBuilder(word);
