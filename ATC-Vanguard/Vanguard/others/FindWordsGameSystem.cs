@@ -135,7 +135,7 @@ namespace ATC_Vanguard.Vanguard.others
             {
                 return null;
             }
-            return sortedPlayers[0];
+            return sortedPlayers.First();
         }
 
         public FindWordsPlayer? GetLoser()
@@ -150,7 +150,7 @@ namespace ATC_Vanguard.Vanguard.others
             {
                 return null;
             }
-            return sortedPlayers[-1];
+            return sortedPlayers.Last();
         }
     }
 
