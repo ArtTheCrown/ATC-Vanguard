@@ -132,6 +132,16 @@ namespace ATC_Vanguard.Vanguard.others
 
             return scoreStr.ToString();
         }
+
+        public GuessWordsPlayer? GetWinner()
+        {
+            return new GuessWordsPlayer();
+        }
+
+        public GuessWordsPlayer? GetLoser()
+        {
+            return new GuessWordsPlayer();
+        }
     }
 
     public class GuessWordsPlayer
