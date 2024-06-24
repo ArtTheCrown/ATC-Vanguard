@@ -125,32 +125,12 @@ namespace ATC_Vanguard.Vanguard.others
 
         public FindWordsPlayer? GetWinner()
         {
-            if (players == null || players.Count == 0)
-            {
-                return null;
-            }
-            var sortedPlayers = players.OrderByDescending(p => p.correct).ToList();
-
-            if (sortedPlayers.Count > 1 && sortedPlayers[0].correct == sortedPlayers[1].correct)
-            {
-                return null;
-            }
-            return sortedPlayers.First();
+            return players.OrderByDescending(e => e.correct).FirstOrDefault();
         }
 
         public FindWordsPlayer? GetLoser()
         {
-            if (players == null || players.Count == 0)
-            {
-                return null;
-            }
-            var sortedPlayers = players.OrderByDescending(p => p.correct).ToList();
-
-            if (sortedPlayers.Count > 1 && sortedPlayers[0].correct == sortedPlayers[1].correct)
-            {
-                return null;
-            }
-            return sortedPlayers.Last();
+            return players.OrderByDescending(e => e.correct).LastOrDefault();
         }
     }
 
