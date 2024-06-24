@@ -49,7 +49,7 @@ namespace ATC_Vanguard.Vanguard
                 EnableMentionPrefix = true,
                 EnableDms = true,
                 EnableDefaultHelp = false,
-                DmHelp = false,
+                DmHelp = true,
                 IgnoreExtraArguments = true, 
             };
 
