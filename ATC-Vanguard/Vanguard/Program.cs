@@ -48,8 +48,8 @@ namespace ATC_Vanguard.Vanguard
                 StringPrefixes = new string[] { jsonReader.prefix },
                 EnableMentionPrefix = true,
                 EnableDms = true,
-                EnableDefaultHelp = false,
-                DmHelp = true,
+                EnableDefaultHelp = true,
+                DmHelp = false,
                 IgnoreExtraArguments = true, 
             };
 
