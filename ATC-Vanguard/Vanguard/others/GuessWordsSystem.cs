@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Xml.Linq;
 
 namespace ATC_Vanguard.Vanguard.others
 {
@@ -135,12 +136,12 @@ namespace ATC_Vanguard.Vanguard.others
 
         public GuessWordsPlayer? GetWinner()
         {
-            return new GuessWordsPlayer();
+            return players.OrderByDescending(e => e.correct).FirstOrDefault();
         }
 
         public GuessWordsPlayer? GetLoser()
         {
-            return new GuessWordsPlayer();
+            return players.OrderByDescending(e => e.correct).LastOrDefault();
         }
     }
 
